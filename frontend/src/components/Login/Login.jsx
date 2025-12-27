@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginaction } from "../../store/actions/authActions";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ setNewUser, newUser }) => {
+const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
 
   // Redirect if login is successful
   React.useEffect(() => {
@@ -24,12 +26,12 @@ const Login = ({ setNewUser, newUser }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginaction(formData));
+    setFormData({ email: "", password: "" });
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl border border-gray-100">
-        
         {/* Header */}
         <div className="text-center">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
@@ -42,10 +44,12 @@ const Login = ({ setNewUser, newUser }) => {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4 rounded-md shadow-sm">
-            
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Email Address
               </label>
               <input
@@ -64,10 +68,16 @@ const Login = ({ setNewUser, newUser }) => {
             {/* Password Field */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Password
                 </label>
-                <button type="button" className="text-xs font-medium text-blue-600 hover:text-blue-500">
+                <button
+                  type="button"
+                  className="text-xs font-medium text-blue-600 hover:text-blue-500"
+                >
                   Forgot password?
                 </button>
               </div>
@@ -106,7 +116,9 @@ const Login = ({ setNewUser, newUser }) => {
           {/* Error Feedback */}
           {error && (
             <div className="rounded-md bg-red-50 p-3 border border-red-100">
-              <p className="text-sm text-red-700 text-center font-medium">{error}</p>
+              <p className="text-sm text-red-700 text-center font-medium">
+                {error}
+              </p>
             </div>
           )}
 
@@ -116,7 +128,7 @@ const Login = ({ setNewUser, newUser }) => {
               Not a registered user?{" "}
               <button
                 type="button"
-                onClick={() => setNewUser(!newUser)}
+                onClick={() => navigate("/signup")}
                 className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer focus:outline-none focus:underline"
               >
                 Sign up here

@@ -1,14 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signupaction } from "../../store/actions/authActions";
+import { useNavigate } from "react-router-dom";
 
-const SignUp = ({ setNewUser, newUser }) => {
+const SignUp = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [formData, setFormData] = React.useState({
     fullName: "",
     username: "",
     email: "",
     password: "",
+    organization: '',
+    branch: ''
   });
 
   const { loading, error, user } = useSelector((state) => state.auth);
@@ -43,7 +47,7 @@ const SignUp = ({ setNewUser, newUser }) => {
             {/* Full Name Input */}
             <div>
               <label
-                htmlFor="name"
+                htmlFor="fullName"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Full Name
@@ -63,7 +67,7 @@ const SignUp = ({ setNewUser, newUser }) => {
             {/* username input */}
             <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 User Name
@@ -122,6 +126,46 @@ const SignUp = ({ setNewUser, newUser }) => {
             </div>
           </div>
 
+          {/* username input */}
+            <div>
+              <label
+                htmlFor="organization"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Organization
+              </label>
+              <input
+                id="organization"
+                name="organization"
+                type="text"
+                required
+                value={formData.organization}
+                onChange={handleChange}
+                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm transition-all"
+                placeholder="MacDonald's"
+              />
+            </div>
+
+            {/* username input */}
+            <div>
+              <label
+                htmlFor="branch"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Branch
+              </label>
+              <input
+                id="branch"
+                name="branch"
+                type="text"
+                required
+                value={formData.branch}
+                onChange={handleChange}
+                className="relative block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm transition-all"
+                placeholder="California"
+              />
+            </div>
+
           {/* Action Button */}
           <div>
             <button
@@ -132,7 +176,7 @@ const SignUp = ({ setNewUser, newUser }) => {
               {loading ? (
                 <span className="flex items-center gap-2">
                   {/* Optional: Simple CSS Spinner */}
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"> </div>
                   Processing...
                 </span>
               ) : (
@@ -156,7 +200,7 @@ const SignUp = ({ setNewUser, newUser }) => {
               Already have an account?{" "}
               <button
                 type="button"
-                onClick={() => setNewUser(!newUser)}
+                onClick={() => navigate('/login')}
                 className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer focus:outline-none focus:underline"
               >
                 Sign in instead

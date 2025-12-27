@@ -1,25 +1,31 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { signupaction } from "./store/actions/authActions";
-import Login from "./components/Login/Login";
-import SignUp from "./components/Signup/SignUp";
+import { useState, useEffect, useRef } from "react"; // 🛡️ Added useRef
+import { useDispatch, useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
+import AppRoutes from "./components/AppRoutes/AppRoutes";
+import { loadUser } from "./store/actions/authActions";
 
 function App() {
   const dispatch = useDispatch();
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [newUser, setNewUser] = React.useState(false);
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+
+  // 🛡️ Use a Ref to track if we've initialized. 
+  // This stays 'true' even if the component re-renders during logout.
+  const isInitialized = useRef(false);
+
+  useEffect(() => {
+    if (!isInitialized.current) {
+      dispatch(loadUser());
+      isInitialized.current = true; // 🛡️ Mark as initialized immediately
+    }
+  }, [dispatch]);
+
+  // Only show the global loader during the VERY FIRST check
+  if (loading && !isInitialized.current) return <div> Loading... </div>;
 
   return (
     <div className="App">
-      {!isLoggedIn ? (
-        newUser ? (
-          <SignUp setNewUser={setNewUser} newUser={newUser} />
-        ) : (
-          <Login setNewUser={setNewUser} newUser={newUser} />
-        )
-      ) : (
-        <h1>Welcome to KitchenOS!</h1>
-      )}
+      <Toaster position="top-right" />
+      <AppRoutes />
     </div>
   );
 }

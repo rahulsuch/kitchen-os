@@ -1,41 +1,64 @@
-import * as types from "../types/ActionTypes.js";
-
 const initialState = {
   user: null,
-  loading: false,
+  isAuthenticated: false,
+  loading: false, // Starts as false, but App.jsx triggers loadUser immediately
   error: null,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SIGNUP_REQUEST:
-      return { ...state, loading: true, error: null };
-    case types.SIGNUP_SUCCESS:
-      console.log("signup reached reducer", action.payload);
-      return { ...state, loading: false, user: action.payload };
-    case types.SIGNUP_FAILURE:
-      return { ...state, loading: false, error: action.payload };
-    case types.LOGIN_REQUEST: // 👈 You can group these to save space
+    case "USER_LOAD_REQUEST":
+    case "SIGNUP_REQUEST":
+    case "LOGIN_REQUEST":
       return {
         ...state,
         loading: true,
+      };
+
+    case "USER_LOAD_SUCCESS":
+    case "SIGNUP_SUCCESS":
+    case "LOGIN_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: true,
+        user: action.payload,
         error: null,
       };
-    case types.LOGIN_SUCCESS:
+
+    case "LOGOUT_SUCCESS":
       return {
-        ...state,
-        loading: false,
-        user: action.payload.user, // Matches your backend { user: {...} }
-        isAuthenticated: true, // 👈 User is now logged in
-      };
-    case types.LOGIN_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload, // The error string from your interceptor
+        ...initialState, // 🛡️ Wipes all user data from memory
         isAuthenticated: false,
-        user: null, // 👈 Clear user on failure
+        loading: false,
       };
+
+    case "USER_LOAD_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: false,
+        user: null,
+        // We don't set the error string here to keep the UI clean on refresh
+      };
+
+    case "SIGNUP_FAILURE":
+    case "LOGIN_FAILURE":
+    case "LOGOUT_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: false,
+        user: null,
+        error: action.payload,
+      };
+
+    case "CLEAR_ERRORS":
+      return {
+        ...state,
+        error: null,
+      };
+
     default:
       return state;
   }
