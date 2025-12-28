@@ -15,27 +15,54 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Please add an email"],
-      unique: true, // 🛡️ Prevents duplicate accounts
+      unique: true,
       lowercase: true,
     },
     password: {
       type: String,
       required: [true, "Please add a password"],
       minlength: 6,
-      select: false, // 🛡️ Security: Don't return password in API calls by default
+      select: false, // 🛡️ Security: Don't return password in API calls
+    },
+    role: {
+      type: String,
+      enum: ["superadmin", "enterpriseadmin", "branchadmin", "staff"],
+      default: "staff",
+    },
+
+    // 🏢 MULTI-TENANCY RELATIONSHIPS
+    // Links to the Franchise/Company (e.g., "McDonald's India")
+    organization: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Organization",
+      required: function () {
+        return this.role !== "superadmin";
+      },
+    },
+    // Links to the specific Store/Kitchen (e.g., "Branch - Mumbai Terminal 2")
+    branch: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Branch",
+      required: function () {
+        return this.role === "staff" || this.role === "branchadmin";
+      },
+    },
+
+    // 🛡️ APPROVAL & ACCESS CONTROL
+    status: {
+      type: String,
+      enum: ["pending", "active", "suspended"],
+      default: "pending", // New signups must be approved by a Branch Admin
+    },
+    approvedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
-); // Automatically adds 'createdAt' and 'updatedAt'
+);
 
-// 🛡️ SECURITY OPTIMIZATION: Encrypt password before saving
-// userSchema.pre('save', async function(next) {
-//   if (!this.isModified('password')) return next();
-//   const salt = await bcrypt.genSalt(10);
-//   this.password = await bcrypt.hash(this.password, salt);
-//   next();
-// });
-
+// 🛡️ PASSWORD ENCRYPTION
 userSchema.pre("save", async function () {
   // Only hash the password if it's new or being modified
   if (!this.isModified("password")) return;
@@ -43,11 +70,17 @@ userSchema.pre("save", async function () {
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+    // ❌ REMOVE next() from here
   } catch (error) {
-    // If hashing fails, throwing an error here stops the save process
+    // If using async, Mongoose catches thrown errors automatically
     throw new Error("Password encryption failed");
   }
 });
+
+// 🛡️ PASSWORD COMPARISON METHOD
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 export default User;
