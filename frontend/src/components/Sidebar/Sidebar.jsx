@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, ClipboardCheck, ShieldCheck, 
-  FileText, Users, AlertCircle, LogOut, ChevronRight 
+  FileText, Users, AlertCircle, LogOut, ChevronRight,ShieldUser 
 } from 'lucide-react';
 import { logoutAction } from '../../store/actions/authActions';
 import { PERMISSIONS } from '../../../../shared/constants/Permissions';
@@ -30,6 +30,7 @@ const Sidebar = ({ isExpanded }) => {
     { icon: FileText, label: 'Certificates', path: '/certificates', permission: PERMISSIONS.VIEW_CERTIFICATES },
     { icon: Users, label: 'Staff & FoSTaC', path: '/staff', permission: PERMISSIONS.MANAGE_STAFF },
     { icon: AlertCircle, label: 'Incidents', path: '/incidents', permission: PERMISSIONS.REPORT_INCIDENTS },
+    { icon: ShieldUser, label: 'Admin Panel', path: '/newuser', permission: PERMISSIONS.SYSTEM_MAINTENANCE },
   ];
 
   // Prevent rendering items if auth data is still being fetched
@@ -94,12 +95,12 @@ const Sidebar = ({ isExpanded }) => {
 
       {/* 3. USER & LOGOUT SECTION */}
       <div className="p-3 border-t border-slate-100 bg-slate-50/50">
-        {isExpanded && user && (
+        {/* {isExpanded && user && (
             <div className="px-3 py-2 mb-2">
                 <p className="text-xs font-bold text-slate-800 truncate">{user.fullname}</p>
                 <p className="text-[10px] text-emerald-600 font-medium uppercase">{user.role.replace('_', ' ')}</p>
             </div>
-        )}
+        )} */}
         <button
           onClick={() => dispatch(logoutAction())}
           className="w-full flex items-center p-3 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all group"

@@ -13,6 +13,7 @@ import SignUp from "../SignUp/SignUp";
 import Home from "../Home/Home";
 import FoscosVault from "../FoscosVault/FoscosVault";
 import Unauthorized from '../Unauthorized/Unauthorized' // 🛡️ Import the new page
+import Newuser from "../Dashboards/Newuser";
 
 function AppRoutes() {
   // Get auth state from Redux
@@ -51,6 +52,20 @@ function AppRoutes() {
                 isPage={true}
               >
                 <FoscosVault />
+              </PermissionGuard>
+            </AuthRoutes>
+          }
+        />
+        <Route
+          path="/newuser"
+          element={
+            <AuthRoutes>
+              {/* 🛡️ 2025-12-15 Solution: PermissionGuard handles the redirect */}
+              <PermissionGuard
+                permission={PERMISSIONS.SYSTEM_MAINTENANCE}
+                isPage={true}
+              >
+                <Newuser />
               </PermissionGuard>
             </AuthRoutes>
           }
