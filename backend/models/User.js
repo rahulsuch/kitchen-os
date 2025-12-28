@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema(
   {
@@ -76,6 +77,16 @@ userSchema.pre("save", async function () {
     throw new Error("Password encryption failed");
   }
 });
+
+
+userSchema.methods.getJWTToken = function () {
+  if (!process.env.JWT_SECRET) {
+    console.error("CRITICAL: JWT_SECRET is missing from .env");
+  }
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE || "1d",
+  });
+};
 
 // 🛡️ PASSWORD COMPARISON METHOD
 userSchema.methods.comparePassword = async function (enteredPassword) {

@@ -33,7 +33,7 @@ const Sidebar = ({ isExpanded }) => {
   ];
 
   // Prevent rendering items if auth data is still being fetched
-  if (loading) return <div className="w-16 h-full bg-white border-r border-slate-100" />;
+  if (loading || !user) return <div className="w-16 h-full bg-white border-r border-slate-100" />;
 
   return (
     <div className="flex flex-col h-full bg-white transition-all duration-300 ease-in-out">
