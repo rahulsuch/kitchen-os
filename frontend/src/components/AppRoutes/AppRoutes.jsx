@@ -12,14 +12,23 @@ import Login from "../Login/Login";
 import SignUp from "../SignUp/SignUp";
 import Home from "../Home/Home";
 import FoscosVault from "../FoscosVault/FoscosVault";
-import Unauthorized from '../Unauthorized/Unauthorized' // 🛡️ Import the new page
+import Unauthorized from "../Unauthorized/Unauthorized"; // 🛡️ Import the new page
+import Newuser from "../Dashboards/Newuser";
+import DailyLogs from "../DailyLogs/DailyLogs";
+import CertificatesDashboard from "../Certificates/CertificatesDashboard";
+import StaffDashboard from "../StaffDashboard/StaffDashboard";
+import Incidents from "../Incidents/Incidents";
+import ManifestDashboard from "../ManifestDashboard/ManifestDashboard";
 
 function AppRoutes() {
-  // Get auth state from Redux
   const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
 
-  // While loading user from cookie, show nothing or a spinner
-  if (loading) return <div>Loading ...</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen bg-[#0a0f18] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
+      </div>
+    );
 
   return (
     <>
@@ -40,12 +49,11 @@ function AppRoutes() {
           }
         />
 
-        {/* FOSCOS VAULT: Auth + Specific Permission Required */}
+        {/* FOSCOS VAULT: MANAGE_FOSCOS Permission */}
         <Route
           path="/foscos"
           element={
             <AuthRoutes>
-              {/* 🛡️ 2025-12-15 Solution: PermissionGuard handles the redirect */}
               <PermissionGuard
                 permission={PERMISSIONS.MANAGE_FOSCOS}
                 isPage={true}
@@ -56,7 +64,92 @@ function AppRoutes() {
           }
         />
 
-        {/* CATCH ALL: Redirect unknown paths to Home or Login */}
+        {/* SYSTEM COMMAND (Newuser): SYSTEM_MAINTENANCE Permission */}
+        <Route
+          path="/system-command"
+          element={
+            <AuthRoutes>
+              <PermissionGuard
+                permission={PERMISSIONS.SYSTEM_MAINTENANCE}
+                isPage={true}
+              >
+                <Newuser />
+              </PermissionGuard>
+            </AuthRoutes>
+          }
+        />
+        <Route
+          path="/manifest-dashboard"
+          element={
+            <AuthRoutes>
+              <PermissionGuard
+                permission={PERMISSIONS.SYSTEM_MAINTENANCE}
+                isPage={true}
+              >
+                <ManifestDashboard />
+              </PermissionGuard>
+            </AuthRoutes>
+          }
+        />
+
+        {/* DAILY LOGS: VIEW_LOGS Permission */}
+        <Route
+          path="/logs"
+          element={
+            <AuthRoutes>
+              <PermissionGuard permission={PERMISSIONS.VIEW_LOGS} isPage={true}>
+                <DailyLogs />
+              </PermissionGuard>
+            </AuthRoutes>
+          }
+        />
+
+        {/* CERTIFICATES: VIEW_CERTIFICATES Permission */}
+        <Route
+          path="/certificates"
+          element={
+            <AuthRoutes>
+              <PermissionGuard
+                permission={PERMISSIONS.VIEW_CERTIFICATES}
+                isPage={true}
+              >
+                <CertificatesDashboard />
+              </PermissionGuard>
+            </AuthRoutes>
+          }
+        />
+
+        {/* STAFF & FOSTAC: MANAGE_STAFF Permission */}
+        <Route
+          path="/staff"
+          element={
+            <AuthRoutes>
+              <PermissionGuard
+                permission={PERMISSIONS.MANAGE_STAFF}
+                isPage={true}
+              >
+                <StaffDashboard />
+              </PermissionGuard>
+            </AuthRoutes>
+          }
+        />
+
+        {/* INCIDENTS: REPORT_INCIDENTS Permission */}
+        <Route
+          path="/incidents"
+          element={
+            <AuthRoutes>
+              <PermissionGuard
+                permission={PERMISSIONS.REPORT_INCIDENTS}
+                isPage={true}
+              >
+                <Incidents />
+              </PermissionGuard>
+            </AuthRoutes>
+          }
+        />
+
+        {/* CATCH ALL */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
