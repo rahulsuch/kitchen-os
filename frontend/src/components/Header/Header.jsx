@@ -49,7 +49,8 @@ const Header = ({ toggleSidebar }) => {
               {user?.fullname || "Loading..."}
             </p>
             <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
-              {user.role.replace("_", " ")}
+              {user?.role?.replace("_", " ") || "ADMIN"}
+
             </p>
           </div>
           <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white font-bold shadow-inner">
