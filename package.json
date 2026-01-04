@@ -1,17 +1,22 @@
 {
   "name": "kitchen-os",
   "version": "1.0.0",
-  "description": "Cloud Kitchen Management System",
-  "main": "index.js",
   "type": "module",
+  "private": true,
   "scripts": {
-    "dev:fe": "vite",
+    "// --- LOCAL DEVELOPMENT ---": "",
+    "dev:fe": "vite frontend",
     "dev:be": "npm run dev --prefix backend",
-    "dev": "npm-run-all --parallel dev:fe dev:be"
+    "dev": "npm-run-all --parallel dev:fe dev:be",
+
+    "// --- PRODUCTION BUILDS ---": "",
+    "build:fe": "vite build frontend --outDir ../dist",
+    "build:be": "cd backend && npm install",
+
+    "// --- DEPLOYMENT HELPERS ---": "",
+    "vercel-build": "npm install && npm run build:fe",
+    "render-build": "cd backend && npm install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.1",
     "@stripe/react-stripe-js": "^5.4.1",
