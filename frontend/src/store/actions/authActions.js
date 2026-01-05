@@ -74,7 +74,7 @@ export const loadUser = () => async (dispatch) => {
 
     dispatch({
       type: "USER_LOAD_SUCCESS",
-      payload: data.user,
+      payload: data,
     });
   } catch (error) {
     // 🛡️ Silent failure: If no cookie/expired, just set auth to false
