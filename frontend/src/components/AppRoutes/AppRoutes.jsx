@@ -9,7 +9,7 @@ import AuthRoutes from "../AuthRoutes/AuthRoutes";
 
 // Pages
 import Login from "../Login/Login";
-import SignUp from "../SignUp/SignUp";
+import SignUp from "../Signup/SignUp";
 import Home from "../Home/Home";
 import FoscosVault from "../FoscosVault/FoscosVault";
 import Unauthorized from "../Unauthorized/Unauthorized"; // 🛡️ Import the new page

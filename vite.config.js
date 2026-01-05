@@ -6,7 +6,7 @@ import path from "path";
 export default defineConfig({
   // 1. Set the root to the frontend folder
   root: "frontend",
-  
+  base: './',
   plugins: [tailwindcss(), react()],
 
   resolve: {

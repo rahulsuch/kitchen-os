@@ -33,6 +33,24 @@ app.use(
 app.use(express.json({ limit: "10kb" })); // Security: Limit body size to prevent DoS
 app.use(cookieParser());
 
+// 🛡️ Global Cookie Security (The "Dec 15th" optimization for Cross-Domain sessions)
+app.use((req, res, next) => {
+  const originalCookie = res.cookie;
+  res.cookie = (name, value, options) => {
+    if (process.env.NODE_ENV === "production") {
+      options = {
+        ...options,
+        httpOnly: true,    // Protects against XSS
+        secure: true,      // Mandatory for SameSite=None
+        sameSite: "none",  // Allows Vercel to send cookies to Render
+        partitioned: true, // 🛡️ 2026 CHIPS: Prevents 401 on refresh
+      };
+    }
+    return originalCookie.call(res, name, value, options);
+  };
+  next();
+});
+
 // 4. Specific Feature Routes
 app.use("/api/v1/auth", authRoutes);
 
