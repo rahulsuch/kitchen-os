@@ -5,12 +5,12 @@
   "private": true,
   "scripts": {
     "// --- LOCAL DEVELOPMENT ---": "",
-    "dev:fe": "vite frontend",
+    "dev:fe": "vite",
     "dev:be": "npm run dev --prefix backend",
     "dev": "npm-run-all --parallel dev:fe dev:be",
 
     "// --- PRODUCTION BUILDS ---": "",
-    "build:fe": "vite build frontend --outDir ../dist",
+    "build:fe": "vite build --outDir ../dist",
     "build:be": "cd backend && npm install",
 
     "// --- DEPLOYMENT HELPERS ---": "",
