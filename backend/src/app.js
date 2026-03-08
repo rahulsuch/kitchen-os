@@ -22,10 +22,10 @@ app.use("/api/", limiter);
 // 3. Dynamic CORS
 app.use(
   cors({
-    // When deploying, replace this with your Vercel/Netlify URL
-    origin: process.env.NODE_ENV === "production" 
-            ? process.env.FRONTEND_URL 
-            : "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",          // Allow local development
+      process.env.FRONTEND_URL,         // Allow production (Vercel/Netlify)
+    ].filter(Boolean),                 // Removes undefined values if FRONTEND_URL isn't set yet
     credentials: true,
   })
 );
