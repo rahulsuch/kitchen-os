@@ -1,12 +1,19 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Menu, Bell, User, ShieldCheck, Search } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { loadDummyUser } from "../../store/actions/authActions";
 
 const Header = ({ toggleSidebar }) => {
-  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch()
+  const [searchText, setSearchText] = useState('')
+  const { user, dummyData } = useSelector((state) => state.auth);
   if (!user) return null;
 
-  console.log(user);
-
+  useEffect(() => {
+    if (user && (!dummyData || dummyData.length === 0)) {
+      dispatch(loadDummyUser());
+    }
+  }, [dispatch, user, dummyData]);
   return (
     <div className="flex items-center justify-between px-6 py-3 bg-white">
       {/* Left: Sidebar Toggle & Search */}
@@ -18,12 +25,14 @@ const Header = ({ toggleSidebar }) => {
           <Menu size={24} />
         </button>
 
-        <div className="hidden md:flex items-center bg-gray-100 px-3 py-1.5 rounded-md border border-gray-200">
+        <div className="hidden md:flex items-center bg-gray-100 px-3 py-1.5 rounded-md focus-within:border-black border border-gray-200">
           <Search size={18} className="text-gray-400" />
           <input
             type="text"
             placeholder="Search logs or docs..."
-            className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-64"
+            className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-64 outline-none"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
       </div>

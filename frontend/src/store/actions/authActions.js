@@ -8,6 +8,9 @@ import {
   SIGNUP_SUCCESS,
   LOGIN_REQUEST,
   LOGOUT_SUCCESS,
+  DUMMY_JSON_REQUEST,
+  DUMMY_JSON_SUCCESS,
+  DUMMY_JSON_FAILURE
 } from "../types/ActionTypes";
 
 export const signupaction = (userData) => async (dispatch) => {
@@ -65,7 +68,6 @@ export const logoutAction = () => async (dispatch) => {
 };
 
 export const loadUser = () => async (dispatch) => {
-  console.log("loadUser action called");
   try {
     dispatch({ type: "USER_LOAD_REQUEST" });
 
@@ -82,5 +84,23 @@ export const loadUser = () => async (dispatch) => {
       type: "USER_LOAD_FAILURE",
       payload: error.response?.data?.message,
     });
+  }
+};
+
+export const loadDummyUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: DUMMY_JSON_REQUEST })
+    const { data } = await apiClient.get("https://dummyjson.com/users/?limit=10", {
+      baseURL: "",             // Overrides the default baseURL
+      withCredentials: false,  // Prevents sending your local cookies to DummyJSON
+      headers: {
+        Authorization: undefined // Removes the Bearer token injected by interceptor
+      }
+    });
+    dispatch({ type: DUMMY_JSON_SUCCESS, payload: data })
+    return data;
+  } catch (error) {
+    dispatch({ type: DUMMY_JSON_FAILURE, payload: error.message })
+    throw error;
   }
 };

@@ -8,14 +8,13 @@
     "dev:fe": "vite",
     "dev:be": "npm run dev --prefix backend",
     "dev": "npm-run-all --parallel dev:fe dev:be",
-
     "// --- PRODUCTION BUILDS ---": "",
     "build:fe": "vite build --outDir ../dist",
     "build:be": "cd backend && npm install",
-
     "// --- DEPLOYMENT HELPERS ---": "",
     "vercel-build": "npm install && npm run build:fe",
-    "render-build": "cd backend && npm install"
+    "render-build": "cd backend && npm install",
+    "install-all": "npm install && npm install --prefix backend"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.1",
