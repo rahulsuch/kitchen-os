@@ -3,6 +3,8 @@ const initialState = {
   isAuthenticated: false,
   loading: false, // Starts as false, but App.jsx triggers loadUser immediately
   error: null,
+  dummyData: [],
+  dummyLoading: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -52,6 +54,28 @@ const authReducer = (state = initialState, action) => {
         user: null,
         error: action.payload,
       };
+
+    case "DUMMY_JSON_REQUEST":
+      return {
+        ...state,
+        dummyLoading: true,
+        error: null
+      }
+
+    case "DUMMY_JSON_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        dummyData: action.payload,
+        error: null
+      }
+    case "DUMMY_JSON_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+
 
     case "CLEAR_ERRORS":
       return {

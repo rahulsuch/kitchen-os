@@ -26,7 +26,6 @@ export const toastMiddleware = (store) => (next) => (action) => {
     // Success Toasts
     const successMessage = action.payload?.message || "Operation successful";
     toast.success(successMessage);
-    console.log('action.payload:', action.payload);
   }
 
   return next(action);
