@@ -10,6 +10,7 @@ import AuthRoutes from "../AuthRoutes/AuthRoutes";
 // Pages
 import Login from "../Login/Login";
 import SignUp from "../Signup/SignUp";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import Home from "../Home/Home";
 import FoscosVault from "../FoscosVault/FoscosVault";
 import Unauthorized from "../Unauthorized/Unauthorized"; // 🛡️ Import the new page
@@ -37,6 +38,7 @@ function AppRoutes() {
         {/* PUBLIC ROUTES */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
         {/* DASHBOARD: Basic Auth Required */}
