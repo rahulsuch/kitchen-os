@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Organization from "../models/Organization.js";
 import Branch from "../models/Branch.js";
 import sendToken from "../utils/sendToken.js";
+import emailService from "../utils/emailService.js";
 
 /**
  * @desc    Register a new basic user
@@ -179,7 +180,7 @@ export const forgotPassword = async (req, res, next) => {
       error.status = 400;
       return next(error);
     }
-    emailService.sendResetPasswordEmail(userExists);
+    await emailService.sendResetPasswordEmail(userExists.email, userExists.resetPasswordToken);
     res.status(200).json({
       success: true,
       message: "Password reset email sent",
