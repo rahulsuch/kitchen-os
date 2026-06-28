@@ -165,3 +165,55 @@ export const registerBusiness = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * @desc    Forgot Password - Send Reset Token
+ * @route   POST /api/v1/auth/forgot-password
+ */
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const userExists = await User.findOne({ email });
+    if (!userExists) {
+      const error = new Error("User with this email does not exist");
+      error.status = 400;
+      return next(error);
+    }
+    emailService.sendResetPasswordEmail(userExists);
+    res.status(200).json({
+      success: true,
+      message: "Password reset email sent",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Resets the user's password using a valid reset token.
+ * @param {newPassword} newPassword 
+ * @description Resets the user's password using a valid reset token. The token is verified against the database, and if valid, the user's password is updated. The reset token and its expiration are cleared after a successful reset.
+ * @route POST /api/v1/auth/reset-password 
+ * @returns {Object} The updated user object
+ */
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { token, newPassword } = req.body;
+    const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpire: { $gt: Date.now() } });
+    if (!user) {
+      const error = new Error("Invalid or expired password reset token");
+      error.status = 400;
+      return next(error);
+    }
+    user.password = newPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

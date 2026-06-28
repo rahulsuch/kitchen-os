@@ -10,7 +10,13 @@ import {
   LOGOUT_SUCCESS,
   DUMMY_JSON_REQUEST,
   DUMMY_JSON_SUCCESS,
-  DUMMY_JSON_FAILURE
+  DUMMY_JSON_FAILURE,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILURE,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE
 } from "../types/ActionTypes";
 
 export const signupaction = (userData) => async (dispatch) => {
@@ -61,7 +67,7 @@ export const logoutAction = () => async (dispatch) => {
 
   } catch (error) {
     dispatch({
-      type: "LOGOUT_FAILURE",
+      type: LOGOUT_FAILURE,
       payload: error.response?.data?.message || "Logout failed",
     });
   }
@@ -101,6 +107,31 @@ export const loadDummyUser = () => async (dispatch) => {
     return data;
   } catch (error) {
     dispatch({ type: DUMMY_JSON_FAILURE, payload: error.message })
+    throw error;
+  }
+};
+
+
+export const forgotPasswordAction = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: FORGOT_PASSWORD_REQUEST });
+    const response = await apiClient.post("/api/v1/auth/forgot-password", { email });
+    dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: response.data });
+    return response.data;
+  } catch (error) {
+    dispatch({ type: FORGOT_PASSWORD_FAILURE, payload: error.message });
+    throw error;
+  }
+};
+
+export const resetPasswordAction = (token, newPassword) => async (dispatch) => {
+  try {
+    dispatch({ type: RESET_PASSWORD_REQUEST });
+    const response = await apiClient.post("/api/v1/auth/reset-password", { token, newPassword });
+    dispatch({ type: RESET_PASSWORD_SUCCESS, payload: response.data });
+    return response.data;
+  } catch (error) {
+    dispatch({ type: RESET_PASSWORD_FAILURE, payload: error.message });
     throw error;
   }
 };
