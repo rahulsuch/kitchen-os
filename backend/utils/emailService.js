@@ -1,9 +1,9 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 // 1. Create the "Transporter" (The engine that sends the email)
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
+  host: "localhost", // Mailpit SMTP host
+  port: 1025, // Mailpit SMTP port
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -22,7 +22,7 @@ const sendResetPasswordEmail = async (userEmail, unhashedToken) => {
   const message = {
     from: `${process.env.EMAIL_FROM}`,
     to: userEmail,
-    subject: 'Kitchen-OS: Password Reset Request',
+    subject: "Kitchen-OS: Password Reset Request",
     html: `
       <h1>You requested a password reset</h1>
       <p>Please click the link below to reset your password. This link is valid for 10 minutes.</p>
