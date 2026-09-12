@@ -20,7 +20,12 @@ const UserFields = ({ formData, setFormData }) => {
         <label className="text-[10px] uppercase font-bold text-slate-500 tracking-widest ml-1">Access Level (Role)</label>
         <select name="role" onChange={handleChange} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-cyan-500 transition-all">
           <option className="bg-slate-900" value="staff">Staff</option>
+          <option className="bg-slate-900" value="trainee">Trainee</option>
+          <option className="bg-slate-900" value="supervisor">Supervisor</option>
+          <option className="bg-slate-900" value="manager">Manager</option>
           <option className="bg-slate-900" value="branchadmin">Branch Admin</option>
+          <option className="bg-slate-900" value="auditor">Auditor</option>
+          <option className="bg-slate-900" value="accountant">Accountant</option>
           <option className="bg-slate-900" value="enterpriseadmin">Enterprise Admin</option>
           <option className="bg-slate-900" value="superadmin">Super Admin</option>
         </select>

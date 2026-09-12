@@ -27,7 +27,17 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["superadmin", "enterpriseadmin", "branchadmin", "staff"],
+      enum: [
+        "superadmin",
+        "enterpriseadmin",
+        "branchadmin",
+        "manager",
+        "supervisor",
+        "staff",
+        "trainee",
+        "auditor",
+        "accountant",
+      ],
       default: "staff",
     },
 
@@ -45,9 +55,88 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Branch",
       required: function () {
-        return this.role === "staff" || this.role === "branchadmin";
+        return ["staff", "branchadmin", "manager", "supervisor", "trainee"].includes(this.role);
       },
     },
+
+    // 📞 CONTACT & PERSONAL INFO
+    contactNo: { type: String },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other", "prefer_not_to_say"],
+    },
+    dateOfBirth: { type: Date },
+    bloodGroup: {
+      type: String,
+      enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    },
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      pincode: String,
+      country: { type: String, default: "India" },
+    },
+    emergencyContact: {
+      name: String,
+      phone: String,
+      relation: String,
+    },
+    profilePicUrl: { type: String },
+
+    // 🏢 EMPLOYMENT DETAILS
+    employeeId: { type: String, unique: true, sparse: true },
+    functionalTitle: { type: String },
+    department: {
+      type: String,
+      enum: [
+        "kitchen",
+        "front-of-house",
+        "housekeeping",
+        "admin",
+        "compliance",
+        "finance",
+        "hr",
+        "procurement",
+        "maintenance",
+      ],
+    },
+    dateOfJoining: { type: Date },
+    employmentStatus: {
+      type: String,
+      enum: [
+        "active",
+        "on_leave",
+        "probation",
+        "notice_period",
+        "terminated",
+        "resigned",
+      ],
+      default: "active",
+    },
+    shift: {
+      type: String,
+      enum: ["morning", "afternoon", "night", "rotational", "general"],
+    },
+
+    // 👔 REPORTING HIERARCHY
+    reportingManager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    hrManager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
+    // 🛡️ COMPLIANCE (core to KitchenOS / FoSTaC)
+    fostacCertified: { type: Boolean },
+    fostacCertificateNumber: { type: String },
+    fostacExpiryDate: { type: Date },
+    aadharLastFour: { type: String },
+
+    // 💰 PAYROLL (optional)
+    salary: { type: Number },
 
     // 🛡️ APPROVAL & ACCESS CONTROL
     status: {
@@ -58,6 +147,14 @@ const userSchema = new mongoose.Schema(
     approvedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    resetPasswordToken: {
+      type: String,
+      select: false,
+    },
+    resetPasswordExpire: {
+      type: Date,
+      select: false,
     },
   },
   { timestamps: true }

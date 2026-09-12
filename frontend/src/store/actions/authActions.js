@@ -119,7 +119,7 @@ export const forgotPasswordAction = (email) => async (dispatch) => {
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: response.data });
     return response.data;
   } catch (error) {
-    dispatch({ type: FORGOT_PASSWORD_FAILURE, payload: error.message });
+    dispatch({ type: FORGOT_PASSWORD_FAILURE, payload: typeof error === 'string' ? error : error.message || "Failed to send reset email" });
     throw error;
   }
 };
@@ -131,7 +131,7 @@ export const resetPasswordAction = (token, newPassword) => async (dispatch) => {
     dispatch({ type: RESET_PASSWORD_SUCCESS, payload: response.data });
     return response.data;
   } catch (error) {
-    dispatch({ type: RESET_PASSWORD_FAILURE, payload: error.message });
+    dispatch({ type: RESET_PASSWORD_FAILURE, payload: typeof error === 'string' ? error : error.message || "Failed to reset password" });
     throw error;
   }
 };
