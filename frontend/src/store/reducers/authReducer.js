@@ -3,6 +3,8 @@ const initialState = {
   isAuthenticated: false,
   loading: false, // Starts as false, but App.jsx triggers loadUser immediately
   error: null,
+  forgotPasswordLoading: false,
+  resetPasswordLoading: false,
   dummyData: [],
   dummyLoading: false,
 };
@@ -76,6 +78,46 @@ const authReducer = (state = initialState, action) => {
         error: action.payload
       }
 
+
+    // 🔒 FORGOT PASSWORD
+    case "FORGOT_PASSWORD_REQUEST":
+      return {
+        ...state,
+        forgotPasswordLoading: true,
+        error: null,
+      };
+    case "FORGOT_PASSWORD_SUCCESS":
+      return {
+        ...state,
+        forgotPasswordLoading: false,
+        error: null,
+      };
+    case "FORGOT_PASSWORD_FAILURE":
+      return {
+        ...state,
+        forgotPasswordLoading: false,
+        error: action.payload,
+      };
+
+    // 🔒 RESET PASSWORD
+    case "RESET_PASSWORD_REQUEST":
+      return {
+        ...state,
+        resetPasswordLoading: true,
+        error: null,
+      };
+    case "RESET_PASSWORD_SUCCESS":
+      return {
+        ...state,
+        resetPasswordLoading: false,
+        error: null,
+      };
+    case "RESET_PASSWORD_FAILURE":
+      return {
+        ...state,
+        resetPasswordLoading: false,
+        error: action.payload,
+      };
 
     case "CLEAR_ERRORS":
       return {
