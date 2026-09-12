@@ -8,6 +8,9 @@ import { errorHandler } from '../middleware/errorMiddleware.js';
 
 const app = express();
 
+// Trust the first proxy (Render, Railway, etc.) so rate-limiter reads the real client IP
+app.set("trust proxy", 1);
+
 // 1. Security Headers (The Dec 15th Optimization)
 app.use(helmet()); 
 
