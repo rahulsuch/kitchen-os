@@ -11,7 +11,7 @@ import crypto from "crypto";
  */
 export const signup = async (req, res, next) => {
   try {
-    const { fullname, username, email, password } = req.body;
+    const { fullname, username, email, password, branch, organization } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -25,6 +25,8 @@ export const signup = async (req, res, next) => {
       username,
       email,
       password,
+      branch,
+      organization,
     });
 
     // 🛡️ Automatically handles JWT generation and HttpOnly cookie
