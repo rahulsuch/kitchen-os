@@ -1,16 +1,24 @@
 import nodemailer from "nodemailer";
 
-// 1. Create the "Transporter" (The engine that sends the email)
-// Uses environment variables so it works in both dev (Mailpit) and production (Gmail/Resend/etc.)
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "localhost",
-  port: parseInt(process.env.SMTP_PORT) || 587,
-  secure: parseInt(process.env.SMTP_PORT) === 465, // true for 465 (SSL), false for 587 (TLS)
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+// Lazy-initialized transporter — created on first use, AFTER dotenv.config() has run.
+// (ES modules hoist imports before top-level code executes, so reading process.env
+//  at the top level would see undefined values before dotenv loads the .env file.)
+let transporter = null;
+
+function getTransporter() {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "localhost",
+      port: parseInt(process.env.SMTP_PORT) || 587,
+      secure: parseInt(process.env.SMTP_PORT) === 465, // true for 465 (SSL), false for 587 (TLS)
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+  }
+  return transporter;
+}
 
 /**
  * Sends a password reset email with the unhashed token.
@@ -58,8 +66,8 @@ const sendResetPasswordEmail = async (userEmail, unhashedToken) => {
     `,
   };
 
-  // 2. Execute the send operation
-  const info = await transporter.sendMail(message);
+  // Execute the send operation using the lazy-initialized transporter
+  const info = await getTransporter().sendMail(message);
   console.log(`Email sent: ${info.messageId}`);
 };
 

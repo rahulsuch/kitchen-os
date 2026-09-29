@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet"; // Added for Security Headers
 import rateLimit from "express-rate-limit"; // Added for Brute-force protection
 import authRoutes from "./routes/authRoutes.js";
+import organizationRoutes from "./routes/organizationRoutes.js";
+import feedDataRoutes from "./routes/feedDataRoutes.js";
 import { errorHandler } from '../middleware/errorMiddleware.js';
 
 const app = express();
@@ -56,6 +58,8 @@ app.use((req, res, next) => {
 
 // 4. Specific Feature Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/organizations", organizationRoutes)
+app.use("/api/v1/feedData", feedDataRoutes)
 
 // 5. Error Handling Middleware (MUST BE LAST)
 app.use(errorHandler);
