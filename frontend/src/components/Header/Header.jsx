@@ -1,19 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Menu, Bell, User, ShieldCheck, Search } from "lucide-react";
 import { useEffect, useState } from 'react';
-import { loadDummyUser } from "../../store/actions/authActions";
 
 const Header = ({ toggleSidebar }) => {
-  const dispatch = useDispatch()
   const [searchText, setSearchText] = useState('')
-  const { user, dummyData } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   if (!user) return null;
 
-  useEffect(() => {
-    if (user && (!dummyData || dummyData.length === 0)) {
-      dispatch(loadDummyUser());
-    }
-  }, [dispatch, user, dummyData]);
   return (
     <div className="flex items-center justify-between px-6 py-3 bg-white">
       {/* Left: Sidebar Toggle & Search */}

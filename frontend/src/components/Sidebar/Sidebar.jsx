@@ -31,7 +31,7 @@ const Sidebar = ({ isExpanded }) => {
   if (loading || !user) return <div className="w-20 h-full bg-[#0d121b] border-r border-white/5" />;
 
   return (
-    <div className={`flex flex-col h-full bg-[#0d121b] border-r border-white/5 transition-all duration-500 scrollbar-width-none ease-in-out ${isExpanded ? 'w-64' : 'w-20'}`}>
+    <div className={`flex flex-col h-full overflow-x-hidden bg-[#0d121b] border-r border-white/5 transition-all duration-500 ease-in-out ${isExpanded ? 'w-64' : 'w-20'}`}>
       
       {/* 1. BRANDING SECTION */}
       <div className="flex items-center h-20 px-6 mb-4">
@@ -49,7 +49,7 @@ const Sidebar = ({ isExpanded }) => {
       </div>
 
       {/* 2. NAVIGATION SECTION */}
-      <nav className="flex-1 px-3 space-y-1.5 overflow-y-auto custom-scrollbar">
+      <nav className="flex-1 px-3 space-y-1.5 overflow-y-auto overflow-x-hidden custom-scrollbar">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           

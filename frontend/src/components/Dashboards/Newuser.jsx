@@ -16,12 +16,16 @@ import {
   Command,
   ChevronRight,
 } from "lucide-react";
+import { useDispatch } from "react-redux";
 import SystemModal from "../SystemModal/SystemModal";
 import { CyberCard } from "../CyberCard/CyberCard";
+import { createBranch, createOrganization } from "../../store/actions/feedDataActions";
 
 const SuperAdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [modalType, setModalType] = useState(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1200);
@@ -43,6 +47,23 @@ const SuperAdminDashboard = () => {
       opacity: 1,
       transition: { type: "spring", stiffness: 100 },
     },
+  };
+
+  const submitHandler = async (formData) => {
+    console.log("Submitting form for modal type:", modalType);
+    switch (modalType) {
+      case "org":
+        await dispatch(createOrganization(formData));
+        setModalType(null);
+        break;
+      case "branch":
+        await dispatch(createBranch(formData));
+        setModalType(null);
+        break;
+      case "user":
+        // Handle user submit logic
+        break;
+    }
   };
 
   return (
@@ -219,7 +240,11 @@ const SuperAdminDashboard = () => {
         {/* 🛡️ Security Implementation: Root Level Modal */}
         <AnimatePresence>
           {modalType && (
-            <SystemModal type={modalType} onClose={() => setModalType(null)} />
+            <SystemModal
+              type={modalType}
+              onClose={() => setModalType(null)}
+              submitHandler={submitHandler}
+            />
           )}
         </AnimatePresence>
       </main>

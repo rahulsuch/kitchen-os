@@ -18,6 +18,19 @@ const branchSchema = new mongoose.Schema(
       state: String,
       pincode: String,
     },
+    location: {
+      type: String,
+      trim: true,
+    },
+    branchType: {
+      type: String,
+      enum: ['Headquarters', 'Regional', 'Local', 'Cloud Kitchen'],
+      default: 'Local'
+    },
+    receptionContact: {
+      type: String,
+      trim: true,
+    },
     fssaiLicenseNumber: {
       type: String,
       required: false,

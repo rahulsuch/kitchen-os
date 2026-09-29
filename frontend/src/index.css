@@ -5,3 +5,32 @@
     transform: translateX(100%);
   }
 }
+
+/* ==================================================
+   GLOBAL CUSTOM SCROLLBAR (CYBER THEME)
+   ================================================== */
+
+/* For Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px; /* For any horizontal scrolls */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Makes the track blend with the container */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b; /* Slate-800 to match dark borders */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4; /* Cyan-500 to match active elements */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1e293b transparent;
+}
