@@ -6,9 +6,16 @@ import rateLimit from "express-rate-limit"; // Added for Brute-force protection
 import authRoutes from "./routes/authRoutes.js";
 import organizationRoutes from "./routes/organizationRoutes.js";
 import feedDataRoutes from "./routes/feedDataRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import { errorHandler } from '../middleware/errorMiddleware.js';
 
 const app = express();
+
+// Log every incoming request immediately
+app.use((req, res, next) => {
+  console.log(`📡 [EXPRESS] ${req.method} ${req.originalUrl || req.url}`);
+  next();
+});
 
 // Trust the first proxy (Render, Railway, etc.) so rate-limiter reads the real client IP
 app.set("trust proxy", 1);
@@ -58,8 +65,9 @@ app.use((req, res, next) => {
 
 // 4. Specific Feature Routes
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/organizations", organizationRoutes)
-app.use("/api/v1/feedData", feedDataRoutes)
+app.use("/api/v1/organizations", organizationRoutes);
+app.use("/api/v1/feedData", feedDataRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // 5. Error Handling Middleware (MUST BE LAST)
 app.use(errorHandler);

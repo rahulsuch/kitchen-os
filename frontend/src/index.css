@@ -1,36 +1,33 @@
 @import "tailwindcss";
-
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
-}
+@import "./styles/tokens.css";
+@import "./styles/components.css";
+@import "./styles/forms.css";
+@import "./styles/layout.css";
 
 /* ==================================================
-   GLOBAL CUSTOM SCROLLBAR (CYBER THEME)
+   GLOBAL CUSTOM SCROLLBAR (7-COLOR PALETTE THEME)
    ================================================== */
 
-/* For Chrome, Safari, and Edge */
 ::-webkit-scrollbar {
   width: 6px;
-  height: 6px; /* For any horizontal scrolls */
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* Makes the track blend with the container */
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b; /* Slate-800 to match dark borders */
-  border-radius: 10px;
+  background: var(--color-neutral);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #06b6d4; /* Cyan-500 to match active elements */
+  background: var(--color-primary);
 }
 
 /* For Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1e293b transparent;
+  scrollbar-color: var(--color-neutral) transparent;
 }

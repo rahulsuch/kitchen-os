@@ -112,6 +112,7 @@ export const getme = async (req, res, next) => {
  * @route   POST /api/v1/auth/register-business
  */
 export const registerBusiness = async (req, res, next) => {
+  console.log("Register Business Request Body:", req.body); // Debugging line
   try {
     const {
       fullname,
@@ -121,6 +122,12 @@ export const registerBusiness = async (req, res, next) => {
       organizationName,
       branchName,
       fssaiNumber,
+      // New Authenticity Fields
+      companyRegistrationNumber,
+      taxId,
+      billingEmail,
+      currency,
+      timezone
     } = req.body;
 
     // 1. Check if user already exists before doing heavy DB work
@@ -134,6 +141,11 @@ export const registerBusiness = async (req, res, next) => {
     // 2. Create the Organization (The Brand)
     const newOrg = await Organization.create({
       name: organizationName,
+      companyRegistrationNumber,
+      taxId,
+      billingEmail: billingEmail || email, // fallback to user's email if not provided
+      currency: currency || "INR",
+      timezone: timezone || "Asia/Kolkata",
     });
 
     // 3. Create the first Branch (The Kitchen)

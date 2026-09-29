@@ -5,7 +5,8 @@ import {
   login,
   getme,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  registerBusiness
 } from "../../controllers/authController.js";
 import { protect } from "../../middleware/authMiddleware.js";
 
@@ -13,6 +14,7 @@ const router = express.Router();
 
 //auth routes
 router.post("/signup", signup);
+router.post("/register-business", registerBusiness);
 router.post("/login", login);
 router.post("/logout", logout);
 router.post("/reset-password", resetPassword);

@@ -13,13 +13,13 @@ const data = [
 
 const ComplianceChart = () => {
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm h-[350px]">
+    <div className="app-card h-[350px]">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-lg font-bold text-slate-800">Weekly Hygiene Trend</h3>
-          <p className="text-xs text-slate-500 font-medium">Average Score: 95.5% (↑ 2% from last week)</p>
+          <h3 className="text-base font-bold text-[var(--color-text-main)]">Weekly Hygiene Trend</h3>
+          <p className="text-xs text-[var(--color-text-muted)] font-medium">Average Score: 95.5% (↑ 2% from last week)</p>
         </div>
-        <select className="text-xs border-slate-200 rounded-md bg-slate-50 font-semibold text-slate-600 outline-none p-1">
+        <select className="text-xs border border-[var(--color-border-subtle)] rounded-lg bg-[var(--color-surface-subtle)] font-semibold text-[var(--color-text-main)] outline-none px-2.5 py-1 cursor-pointer">
           <option>Last 7 Days</option>
           <option>Last 30 Days</option>
         </select>
@@ -30,32 +30,39 @@ const ComplianceChart = () => {
           <AreaChart data={data}>
             <defs>
               <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
-                <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#044a42" stopOpacity={0.15}/>
+                <stop offset="95%" stopColor="#044a42" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border-subtle)" />
             <XAxis 
               dataKey="day" 
               axisLine={false} 
               tickLine={false} 
-              tick={{fill: '#94a3b8', fontSize: 12}} 
+              tick={{fill: 'var(--color-text-muted)', fontSize: 12}} 
               dy={10}
             />
             <YAxis 
               domain={[0, 100]} 
               axisLine={false} 
               tickLine={false} 
-              tick={{fill: '#94a3b8', fontSize: 12}} 
+              tick={{fill: 'var(--color-text-muted)', fontSize: 12}} 
             />
             <Tooltip 
-              contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+              contentStyle={{ 
+                backgroundColor: 'var(--color-surface)',
+                borderColor: 'var(--color-border-subtle)',
+                borderRadius: '12px',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
+                color: 'var(--color-text-main)',
+                fontSize: '12px'
+              }}
             />
             <Area 
               type="monotone" 
               dataKey="score" 
-              stroke="#10b981" 
-              strokeWidth={3}
+              stroke="#044a42" 
+              strokeWidth={2.5}
               fillOpacity={1} 
               fill="url(#colorScore)" 
             />
