@@ -1,0 +1,67 @@
+/* ══════════════════════════════════════════════════════
+   MODULAR LAYOUT STYLES (KITCHENOS DESIGN SYSTEM)
+   ══════════════════════════════════════════════════════ */
+
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-canvas);
+  color: var(--color-text-main);
+}
+
+.app-header {
+  width: 100%;
+  flex: none;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border-subtle);
+  z-index: 40;
+}
+
+.app-sidebar {
+  height: 100%;
+  flex: none;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border-subtle);
+  transition: width 0.25s ease-in-out;
+  overflow: hidden;
+}
+
+.app-canvas {
+  background-color: var(--color-canvas);
+}
+
+/* Sidebar navigation item */
+.sidebar-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  transition: all 0.15s ease-in-out;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.sidebar-item:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-main);
+}
+.sidebar-item-active {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+}
+.sidebar-item-active:hover {
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
+}
+.sidebar-item-active * {
+  color: #ffffff !important;
+}

@@ -42,15 +42,15 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-2xl space-y-8 rounded-2xl bg-white p-8 shadow-xl border border-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-[var(--color-canvas)] px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-2xl space-y-8 rounded-2xl bg-[var(--color-surface)] p-8 shadow-sm border border-[var(--color-border-subtle)]">
         
         {/* Header Section */}
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--color-text-main)]">
             Register your Business
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-xs sm:text-sm text-[var(--color-text-muted)]">
             Join KitchenOS and establish your digital headquarters
           </p>
         </div>
@@ -59,56 +59,58 @@ const SignUp = () => {
           
           {/* --- SECTION 1: Personal Profile --- */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">1. Enterprise Admin Profile</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-main)] border-b border-[var(--color-border-subtle)] pb-2 mb-4">
+              1. Enterprise Admin Profile
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="fullname" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <div className="form-group">
+                <label htmlFor="fullname" className="form-label">Full Name</label>
                 <input
                   name="fullname"
                   type="text"
                   required
                   value={formData.fullname}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="John Doe"
                 />
               </div>
 
-              <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+              <div className="form-group">
+                <label htmlFor="username" className="form-label">Username</label>
                 <input
                   name="username"
                   type="text"
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="johndoe_1"
                 />
               </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Admin Official Email</label>
+              <div className="form-group">
+                <label htmlFor="email" className="form-label">Admin Official Email</label>
                 <input
                   name="email"
                   type="email"
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="admin@brand.com"
                 />
               </div>
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <div className="form-group">
+                <label htmlFor="password" className="form-label">Password</label>
                 <input
                   name="password"
                   type="password"
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="••••••••"
                 />
               </div>
@@ -117,67 +119,69 @@ const SignUp = () => {
 
           {/* --- SECTION 2: Business Authenticity --- */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">2. Business Verification & Legal</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-main)] border-b border-[var(--color-border-subtle)] pb-2 mb-4">
+              2. Business Verification & Legal
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2">
-                <label htmlFor="organizationName" className="block text-sm font-medium text-gray-700 mb-1">Registered Brand / Company Name</label>
+              <div className="md:col-span-2 form-group">
+                <label htmlFor="organizationName" className="form-label">Registered Brand / Company Name</label>
                 <input
                   name="organizationName"
                   type="text"
                   required
                   value={formData.organizationName}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="Global Kitchens Ltd."
                 />
               </div>
 
-              <div>
-                <label htmlFor="companyRegistrationNumber" className="block text-sm font-medium text-gray-700 mb-1">CIN / Registration No.</label>
+              <div className="form-group">
+                <label htmlFor="companyRegistrationNumber" className="form-label">CIN / Registration No.</label>
                 <input
                   name="companyRegistrationNumber"
                   type="text"
                   required
                   value={formData.companyRegistrationNumber}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="U12345MH2024PTC123456"
                 />
               </div>
 
-              <div>
-                <label htmlFor="taxId" className="block text-sm font-medium text-gray-700 mb-1">Tax ID / GSTIN</label>
+              <div className="form-group">
+                <label htmlFor="taxId" className="form-label">Tax ID / GSTIN</label>
                 <input
                   name="taxId"
                   type="text"
                   required
                   value={formData.taxId}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="27ABCDE1234F1Z5"
                 />
               </div>
 
-              <div>
-                <label htmlFor="billingEmail" className="block text-sm font-medium text-gray-700 mb-1">Billing Email (Invoices)</label>
+              <div className="form-group">
+                <label htmlFor="billingEmail" className="form-label">Billing Email (Invoices)</label>
                 <input
                   name="billingEmail"
                   type="email"
                   value={formData.billingEmail}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="accounts@brand.com"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label htmlFor="currency" className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+                <div className="form-group">
+                  <label htmlFor="currency" className="form-label">Currency</label>
                   <select
                     name="currency"
                     value={formData.currency}
                     onChange={handleChange}
-                    className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                    className="select-control"
                   >
                     <option value="INR">INR (₹)</option>
                     <option value="USD">USD ($)</option>
@@ -185,13 +189,13 @@ const SignUp = () => {
                     <option value="GBP">GBP (£)</option>
                   </select>
                 </div>
-                <div>
-                  <label htmlFor="timezone" className="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+                <div className="form-group">
+                  <label htmlFor="timezone" className="form-label">Timezone</label>
                   <select
                     name="timezone"
                     value={formData.timezone}
                     onChange={handleChange}
-                    className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                    className="select-control"
                   >
                     <option value="Asia/Kolkata">IST (Kolkata)</option>
                     <option value="UTC">UTC (Global)</option>
@@ -205,29 +209,31 @@ const SignUp = () => {
 
           {/* --- SECTION 3: Initial Branch --- */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">3. Initial Branch (Headquarters)</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-main)] border-b border-[var(--color-border-subtle)] pb-2 mb-4">
+              3. Initial Branch (Headquarters)
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="branchName" className="block text-sm font-medium text-gray-700 mb-1">Branch Name</label>
+              <div className="form-group">
+                <label htmlFor="branchName" className="form-label">Branch Name</label>
                 <input
                   name="branchName"
                   type="text"
                   required
                   value={formData.branchName}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="Mumbai HQ"
                 />
               </div>
 
-              <div>
-                <label htmlFor="fssaiNumber" className="block text-sm font-medium text-gray-700 mb-1">FSSAI License No.</label>
+              <div className="form-group">
+                <label htmlFor="fssaiNumber" className="form-label">FSSAI License No.</label>
                 <input
                   name="fssaiNumber"
                   type="text"
                   value={formData.fssaiNumber}
                   onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="input-control"
                   placeholder="Required for Food Safety Logs"
                 />
               </div>
@@ -235,11 +241,11 @@ const SignUp = () => {
           </div>
 
           {/* Action Button */}
-          <div className="pt-4 border-t border-gray-100">
+          <div className="pt-4 border-t border-[var(--color-border-subtle)]">
             <button
               type="submit"
               disabled={loading}
-              className="group relative flex w-full justify-center rounded-lg bg-blue-600 px-4 py-4 text-base font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed transition-all active:scale-95"
+              className="btn-primary w-full py-3.5 text-sm cursor-pointer"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -254,21 +260,19 @@ const SignUp = () => {
 
           {/* Error Message */}
           {error && (
-            <div className="rounded-md bg-red-50 p-3 border border-red-200">
-              <p className="text-sm text-red-700 text-center font-medium">
-                {error}
-              </p>
+            <div className="form-error-banner">
+              <p>{error}</p>
             </div>
           )}
 
           {/* Toggle View */}
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-xs text-[var(--color-text-muted)]">
               Already have an enterprise account?{" "}
               <button
                 type="button"
                 onClick={() => navigate('/login')}
-                className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer focus:outline-none focus:underline"
+                className="font-semibold text-[var(--color-primary)] hover:underline cursor-pointer"
               >
                 Sign in to Admin Core
               </button>

@@ -28,22 +28,22 @@ const Header = ({ toggleSidebar }) => {
   const isEnterpriseAdmin = user?.role === "enterpriseadmin" || user?.role === "superadmin";
 
   return (
-    <div className="flex items-center justify-between px-6 py-3 bg-white">
+    <div className="flex items-center justify-between px-6 py-3 bg-[var(--color-surface)]">
       {/* Left: Sidebar Toggle & Search */}
       <div className="flex items-center gap-4">
         <button
           onClick={toggleSidebar}
-          className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600"
+          className="p-2 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors text-[var(--color-text-muted)] cursor-pointer"
         >
-          <Menu size={24} />
+          <Menu size={22} />
         </button>
 
-        <div className="hidden md:flex items-center bg-gray-100 px-3 py-1.5 rounded-md focus-within:border-black border border-gray-200">
-          <Search size={18} className="text-gray-400" />
+        <div className="hidden md:flex items-center bg-[var(--color-surface-subtle)] px-3 py-1.5 rounded-lg border border-[var(--color-border-subtle)] focus-within:border-[var(--color-primary)]">
+          <Search size={16} className="text-[var(--color-text-muted)]" />
           <input
             type="text"
             placeholder="Search logs or docs..."
-            className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-64 outline-none"
+            className="bg-transparent border-none text-xs ml-2 w-64 outline-none text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)]"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -51,45 +51,45 @@ const Header = ({ toggleSidebar }) => {
       </div>
 
       {/* Center: Compliance Status Indicator */}
-      <div className="hidden lg:flex items-center gap-2 px-4 py-1.5 bg-green-50 rounded-full border border-green-200">
-        <ShieldCheck size={18} className="text-green-600" />
-        <span className="text-sm font-semibold text-green-700">
+      <div className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-full badge-success">
+        <ShieldCheck size={16} />
+        <span className="text-xs font-semibold">
           Audit Ready: 98% Score
         </span>
       </div>
 
       {/* Right: Notifications & User Profile */}
       <div className="flex items-center gap-4">
-        <button className="relative p-2 text-gray-500 hover:bg-gray-100 rounded-full">
-          <Bell size={20} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+        <button className="relative p-2 text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] rounded-full cursor-pointer transition-colors">
+          <Bell size={18} />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--color-critical)] rounded-full border-2 border-[var(--color-surface)]"></span>
         </button>
 
         {/* User Profile Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-3 pl-4 border-l border-gray-200 text-left hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 pl-4 border-l border-[var(--color-border-subtle)] text-left hover:opacity-90 transition-opacity cursor-pointer"
           >
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-bold text-gray-800 leading-tight">
+              <p className="text-sm font-bold text-[var(--color-text-main)] leading-tight">
                 {user?.fullname || "Loading..."}
               </p>
-              <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
+              <p className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider font-semibold">
                 {user?.role?.replace("_", " ") || "ADMIN"}
               </p>
             </div>
-            <div className="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold shadow-inner">
-              {user?.fullname?.charAt(0) || <User size={20} />}
+            <div className="w-9 h-9 rounded-xl bg-[var(--color-primary)] flex items-center justify-center text-white font-bold shadow-sm text-sm">
+              {user?.fullname?.charAt(0) || <User size={18} />}
             </div>
-            <ChevronDown size={14} className="text-gray-400 hidden sm:block" />
+            <ChevronDown size={14} className="text-[var(--color-text-muted)] hidden sm:block" />
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in zoom-in-95">
-              <div className="px-4 py-2 border-b border-gray-100">
-                <p className="text-xs font-bold text-gray-800">{user?.fullname}</p>
-                <p className="text-[11px] text-gray-500 truncate">{user?.email}</p>
+            <div className="absolute right-0 mt-2 w-56 bg-[var(--color-surface)] rounded-2xl shadow-xl border border-[var(--color-border-subtle)] py-2 z-50 animate-in fade-in zoom-in-95">
+              <div className="px-4 py-2 border-b border-[var(--color-border-subtle)]">
+                <p className="text-xs font-bold text-[var(--color-text-main)]">{user?.fullname}</p>
+                <p className="text-[11px] text-[var(--color-text-muted)] truncate">{user?.email}</p>
               </div>
 
               <button
@@ -97,9 +97,9 @@ const Header = ({ toggleSidebar }) => {
                   navigate("/profile");
                   setIsDropdownOpen(false);
                 }}
-                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-cyan-50 hover:text-cyan-700 transition-colors"
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-[var(--color-text-main)] hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
               >
-                <UserCircle size={16} />
+                <UserCircle size={16} className="text-[var(--color-text-muted)]" />
                 My Profile
               </button>
 
@@ -109,21 +109,21 @@ const Header = ({ toggleSidebar }) => {
                     navigate("/organization-settings");
                     setIsDropdownOpen(false);
                   }}
-                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-gray-700 hover:bg-cyan-50 hover:text-cyan-700 transition-colors"
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-[var(--color-text-main)] hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
                 >
-                  <Building2 size={16} />
+                  <Building2 size={16} className="text-[var(--color-text-muted)]" />
                   Organization Settings
                 </button>
               )}
 
-              <hr className="my-1 border-gray-100" />
+              <hr className="my-1 border-[var(--color-border-subtle)]" />
 
               <button
                 onClick={() => {
                   dispatch(logoutAction());
                   setIsDropdownOpen(false);
                 }}
-                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-[var(--color-critical)] hover:bg-[var(--color-critical-subtle)] transition-colors cursor-pointer"
               >
                 <LogOut size={16} />
                 Sign Out

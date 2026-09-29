@@ -113,34 +113,34 @@ const UserProfile = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12">
       {/* 1. HEADER & IDENTITY CARD */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row items-center gap-6">
-        <div className="w-20 h-20 rounded-2xl bg-cyan-600 text-white flex items-center justify-center font-bold text-3xl shadow-lg shadow-cyan-600/30">
+      <div className="app-card flex flex-col md:flex-row items-center gap-6">
+        <div className="w-16 h-16 rounded-2xl bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-2xl shadow-sm">
           {profileForm.fullname?.charAt(0) || "U"}
         </div>
         <div className="flex-1 text-center md:text-left">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1">
-            <h1 className="text-2xl font-bold text-slate-900">{profileForm.fullname}</h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-50 text-cyan-700 border border-cyan-200">
+            <h1 className="text-xl font-bold text-[var(--color-text-main)]">{profileForm.fullname}</h1>
+            <span className="badge-base badge-primary">
               {user?.role || "Enterprise Admin"}
             </span>
           </div>
-          <p className="text-sm text-slate-500">
+          <p className="text-xs text-[var(--color-text-muted)]">
             @{profileForm.username} • {profileForm.email}
           </p>
         </div>
       </div>
 
       {/* 2. PERSONAL DETAILS FORM */}
-      <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
-        <div className="flex items-center gap-2 mb-6 border-b pb-4">
-          <User className="text-cyan-600" size={20} />
-          <h2 className="text-lg font-bold text-slate-900">Personal Information</h2>
+      <div className="app-card sm:p-8">
+        <div className="flex items-center gap-2 mb-6 border-b border-[var(--color-border-subtle)] pb-4">
+          <User className="text-[var(--color-primary)]" size={18} />
+          <h2 className="text-base font-bold text-[var(--color-text-main)]">Personal Information</h2>
         </div>
 
         <form onSubmit={handleProfileSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+            <div className="form-group">
+              <label className="form-label">
                 Full Name
               </label>
               <input
@@ -150,12 +150,12 @@ const UserProfile = () => {
                 onChange={(e) =>
                   setProfileForm({ ...profileForm, fullname: e.target.value })
                 }
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                className="input-control"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+            <div className="form-group">
+              <label className="form-label">
                 Personal Contact Number
               </label>
               <input
@@ -165,12 +165,12 @@ const UserProfile = () => {
                 onChange={(e) =>
                   setProfileForm({ ...profileForm, contactNo: e.target.value })
                 }
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                className="input-control"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+            <div className="form-group">
+              <label className="form-label">
                 Functional Title / Designation
               </label>
               <input
@@ -180,12 +180,12 @@ const UserProfile = () => {
                 onChange={(e) =>
                   setProfileForm({ ...profileForm, functionalTitle: e.target.value })
                 }
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                className="input-control"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+            <div className="form-group">
+              <label className="form-label">
                 Gender
               </label>
               <select
@@ -193,7 +193,7 @@ const UserProfile = () => {
                 onChange={(e) =>
                   setProfileForm({ ...profileForm, gender: e.target.value })
                 }
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500 bg-white"
+                className="select-control"
               >
                 <option value="prefer_not_to_say">Prefer not to say</option>
                 <option value="male">Male</option>
@@ -203,16 +203,16 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-[var(--color-border-subtle)]">
             <button
               type="submit"
               disabled={savingProfile}
-              className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md shadow-cyan-600/20 active:scale-95 disabled:opacity-50"
+              className="btn-primary"
             >
               {savingProfile ? (
-                <RefreshCw className="animate-spin" size={16} />
+                <RefreshCw className="animate-spin" size={14} />
               ) : (
-                <Save size={16} />
+                <Save size={14} />
               )}
               {savingProfile ? "Saving Profile..." : "Save Personal Info"}
             </button>
@@ -221,16 +221,16 @@ const UserProfile = () => {
       </div>
 
       {/* 3. SECURITY & CHANGE PASSWORD */}
-      <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
-        <div className="flex items-center gap-2 mb-6 border-b pb-4">
-          <KeyRound className="text-cyan-600" size={20} />
-          <h2 className="text-lg font-bold text-slate-900">Security & Credentials</h2>
+      <div className="app-card sm:p-8">
+        <div className="flex items-center gap-2 mb-6 border-b border-[var(--color-border-subtle)] pb-4">
+          <KeyRound className="text-[var(--color-primary)]" size={18} />
+          <h2 className="text-base font-bold text-[var(--color-text-main)]">Security & Credentials</h2>
         </div>
 
         <form onSubmit={handlePasswordSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+            <div className="form-group">
+              <label className="form-label">
                 Current Password
               </label>
               <input
@@ -241,12 +241,12 @@ const UserProfile = () => {
                 onChange={(e) =>
                   setPasswordForm({ ...passwordForm, currentPassword: e.target.value })
                 }
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                className="input-control text-xs"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+            <div className="form-group">
+              <label className="form-label">
                 New Password
               </label>
               <input
@@ -257,12 +257,12 @@ const UserProfile = () => {
                 onChange={(e) =>
                   setPasswordForm({ ...passwordForm, newPassword: e.target.value })
                 }
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                className="input-control text-xs"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+            <div className="form-group">
+              <label className="form-label">
                 Confirm New Password
               </label>
               <input
@@ -273,21 +273,21 @@ const UserProfile = () => {
                 onChange={(e) =>
                   setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })
                 }
-                className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                className="input-control text-xs"
               />
             </div>
           </div>
 
-          <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="flex justify-end pt-4 border-t border-[var(--color-border-subtle)]">
             <button
               type="submit"
               disabled={changingPassword}
-              className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md active:scale-95 disabled:opacity-50"
+              className="btn-primary"
             >
               {changingPassword ? (
-                <RefreshCw className="animate-spin" size={16} />
+                <RefreshCw className="animate-spin" size={14} />
               ) : (
-                <Lock size={16} />
+                <Lock size={14} />
               )}
               {changingPassword ? "Updating Password..." : "Change Password"}
             </button>

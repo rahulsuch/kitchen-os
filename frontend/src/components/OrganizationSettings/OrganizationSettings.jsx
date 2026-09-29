@@ -9,10 +9,6 @@ import {
   UserCheck,
   Save,
   CheckCircle2,
-  AlertCircle,
-  HelpCircle,
-  ExternalLink,
-  Plus,
   X,
   RefreshCw,
 } from "lucide-react";
@@ -47,7 +43,7 @@ const CUISINE_PRESETS = [
 
 const OrganizationSettings = () => {
   const dispatch = useDispatch();
-  const { profile, loading, saving, error } = useSelector((state) => state.orgProfile);
+  const { profile, loading, saving } = useSelector((state) => state.orgProfile);
   const { user } = useSelector((state) => state.auth);
 
   const [activeTab, setActiveTab] = useState("operations");
@@ -257,10 +253,10 @@ const OrganizationSettings = () => {
 
   if (loading && !profile) {
     return (
-      <div className="flex min-h-[500px] items-center justify-center">
-        <div className="flex items-center gap-3 text-slate-400">
-          <RefreshCw className="animate-spin text-cyan-500" size={24} />
-          <span>Loading organization profile...</span>
+      <div className="flex min-h-[400px] items-center justify-center app-card">
+        <div className="flex items-center gap-3 text-[var(--color-text-muted)]">
+          <RefreshCw className="animate-spin text-[var(--color-primary)]" size={20} />
+          <span className="text-sm font-medium">Loading organization profile...</span>
         </div>
       </div>
     );
@@ -269,65 +265,65 @@ const OrganizationSettings = () => {
   return (
     <div className="space-y-6 pb-12">
       {/* 1. HEADER SECTION */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-cyan-50 rounded-xl text-cyan-600">
-              <Building2 size={24} />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900">
-                {formData.name || "Organization Profile & Settings"}
-              </h1>
-              <p className="text-sm text-slate-500">
-                Corporate Tenant Identity, Operational Model, and Platform Governance
-              </p>
-            </div>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 app-card">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 bg-[var(--color-primary-subtle)] border border-[var(--color-primary)]/20 rounded-xl text-[var(--color-primary)]">
+            <Building2 size={22} />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-[var(--color-text-main)]">
+              {formData.name || "Organization Settings"}
+            </h1>
+            <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
+              Corporate Tenant Identity, Operational Channels, and Governance
+            </p>
           </div>
         </div>
 
         <button
           onClick={handleSave}
           disabled={saving}
-          className="inline-flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md shadow-cyan-600/20 active:scale-95 disabled:opacity-50"
+          className="btn-primary whitespace-nowrap"
         >
           {saving ? (
-            <RefreshCw className="animate-spin" size={16} />
+            <RefreshCw className="animate-spin" size={14} />
           ) : (
-            <Save size={16} />
+            <Save size={14} />
           )}
           {saving ? "Saving Changes..." : "Save Configuration"}
         </button>
       </div>
 
       {/* 2. COMPLETION PROGRESS BAR */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-6 rounded-2xl shadow-lg border border-slate-700/50">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
+      <div className="app-card">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-              Onboarding Readiness
-            </span>
-            <h3 className="text-lg font-bold text-white mt-0.5">
-              Business Profile: {completionPercentage}% Complete
-            </h3>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-[var(--color-text-main)]">
+                Setup Readiness: {completionPercentage}%
+              </span>
+              <span className={`badge-base ${completionPercentage === 100 ? 'badge-success' : 'badge-primary'}`}>
+                {completionPercentage === 100 ? "Complete" : "In Progress"}
+              </span>
+            </div>
           </div>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-[var(--color-text-muted)]">
             {completionPercentage === 100
               ? "All regulatory and platform details configured!"
-              : "Complete your operations and compliance info for full feature unlocking"}
+              : "Complete your operations and compliance details for full feature access"}
           </span>
         </div>
 
-        <div className="w-full bg-slate-700/60 rounded-full h-3 overflow-hidden p-0.5 border border-slate-600/50">
+        <div className="w-full bg-[var(--color-surface-subtle)] rounded-full h-2 overflow-hidden">
           <div
-            className="bg-gradient-to-r from-cyan-500 to-emerald-400 h-full rounded-full transition-all duration-700 ease-out"
+            className="bg-[var(--color-primary)] h-full rounded-full transition-all duration-500"
             style={{ width: `${completionPercentage}%` }}
           />
         </div>
       </div>
 
       {/* 3. TABS NAVIGATION */}
-      <div className="flex overflow-x-auto border-b border-slate-200 gap-2 pb-px">
+      <div className="flex overflow-x-auto gap-2 pb-1">
         {[
           { id: "operations", label: "Operations & Cuisines", icon: Utensils },
           { id: "integrations", label: "Delivery & POS Integrations", icon: Share2 },
@@ -342,13 +338,9 @@ const OrganizationSettings = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-semibold whitespace-nowrap transition-all border-b-2 ${
-                isActive
-                  ? "border-cyan-600 text-cyan-600 bg-cyan-50/50 rounded-t-xl"
-                  : "border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300"
-              }`}
+              className={`tab-pill ${isActive ? "tab-pill-active" : ""}`}
             >
-              <Icon size={16} />
+              <Icon size={15} />
               {tab.label}
             </button>
           );
@@ -356,46 +348,42 @@ const OrganizationSettings = () => {
       </div>
 
       {/* 4. TAB CONTENTS */}
-      <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+      <div className="app-card sm:p-8">
         {/* ==================================================== */}
         {/* TAB 1: OPERATIONS & CUISINES */}
         {/* ==================================================== */}
         {activeTab === "operations" && (
-          <div className="space-y-8 animate-in fade-in duration-300">
+          <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-bold text-[var(--color-text-main)] mb-1">
                 Business Service Models
               </h3>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">
                 Select all the operational channels that this business functions on. KitchenOS will adapt POS and dispatch views accordingly.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
                 {SERVICE_MODEL_OPTIONS.map((opt) => {
                   const isChecked = formData.operationsProfile.serviceModels.includes(opt.id);
                   return (
                     <div
                       key={opt.id}
                       onClick={() => handleServiceModelToggle(opt.id)}
-                      className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                        isChecked
-                          ? "border-cyan-500 bg-cyan-50/40 text-slate-900 shadow-sm"
-                          : "border-slate-200 hover:border-slate-300 bg-white text-slate-600"
-                      }`}
+                      className={`selectable-card ${isChecked ? "selectable-card-active" : ""}`}
                     >
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-bold text-sm text-slate-800">{opt.label}</h4>
-                          <p className="text-xs text-slate-500 mt-1">{opt.desc}</p>
+                          <h4 className="font-semibold text-sm">{opt.label}</h4>
+                          <p className="text-xs mt-0.5 opacity-80">{opt.desc}</p>
                         </div>
                         <div
-                          className={`w-5 h-5 rounded-full flex items-center justify-center border ${
+                          className={`w-4 h-4 rounded-full flex items-center justify-center mt-0.5 ${
                             isChecked
-                              ? "bg-cyan-500 border-cyan-500 text-white"
-                              : "border-slate-300"
+                              ? "bg-white text-[var(--color-primary)]"
+                              : "border border-[var(--color-border)] bg-[var(--color-surface)]"
                           }`}
                         >
-                          {isChecked && <CheckCircle2 size={14} />}
+                          {isChecked && <CheckCircle2 size={12} />}
                         </div>
                       </div>
                     </div>
@@ -404,14 +392,14 @@ const OrganizationSettings = () => {
               </div>
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border-[var(--color-border-subtle)]" />
 
             {/* Cuisines Section */}
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-bold text-[var(--color-text-main)] mb-1">
                 Cuisine Specialties
               </h3>
-              <p className="text-sm text-slate-500 mb-3">
+              <p className="text-xs text-[var(--color-text-muted)] mb-3">
                 Used to tailor recipe logs, allergen auditing templates, and inventory categorization.
               </p>
 
@@ -420,33 +408,33 @@ const OrganizationSettings = () => {
                 {formData.operationsProfile.cuisineTypes.map((c) => (
                   <span
                     key={c}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-cyan-300 text-xs font-semibold"
+                    className="badge-base badge-category inline-flex items-center gap-1.5 py-1 px-2.5 !text-xs !font-medium"
                   >
                     {c}
                     <button
                       type="button"
                       onClick={() => handleRemoveCuisine(c)}
-                      className="hover:text-red-400 transition-colors"
+                      className="opacity-70 hover:opacity-100 hover:text-[var(--color-critical)] transition-colors cursor-pointer"
                     >
-                      <X size={13} />
+                      <X size={12} />
                     </button>
                   </span>
                 ))}
                 {formData.operationsProfile.cuisineTypes.length === 0 && (
-                  <span className="text-xs text-slate-400 italic">No cuisines selected yet. Pick below or add custom.</span>
+                  <span className="text-xs text-[var(--color-text-muted)] italic">No cuisines selected yet. Pick below or add custom.</span>
                 )}
               </div>
 
               {/* Preset Chips */}
               <div className="space-y-2 mb-4">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Quick Add Presets:</span>
-                <div className="flex flex-wrap gap-2">
+                <span className="text-xs font-semibold text-[var(--color-text-muted)]">Quick Add Presets:</span>
+                <div className="flex flex-wrap gap-1.5">
                   {CUISINE_PRESETS.map((preset) => (
                     <button
                       key={preset}
                       type="button"
                       onClick={() => handleAddCuisine(preset)}
-                      className="px-2.5 py-1 text-xs font-medium border border-slate-200 rounded-md hover:bg-slate-50 text-slate-600 transition-all"
+                      className="px-2.5 py-1 text-xs font-medium bg-[var(--color-surface-subtle)] rounded-lg hover:bg-[var(--color-surface-hover)] text-[var(--color-text-main)] transition-colors cursor-pointer border border-[var(--color-border-subtle)]"
                     >
                       + {preset}
                     </button>
@@ -461,24 +449,24 @@ const OrganizationSettings = () => {
                   placeholder="Add custom cuisine (e.g., Lebanese, Vegan Fusion)"
                   value={newCuisine}
                   onChange={(e) => setNewCuisine(e.target.value)}
-                  className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control text-xs"
                 />
                 <button
                   type="button"
                   onClick={() => handleAddCuisine(newCuisine)}
-                  className="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-lg"
+                  className="btn-secondary text-xs px-3.5 py-2"
                 >
                   Add
                 </button>
               </div>
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border-[var(--color-border-subtle)]" />
 
             {/* Operating Schedule & Volume */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Operating Schedule
                 </label>
                 <select
@@ -492,7 +480,7 @@ const OrganizationSettings = () => {
                       },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500 bg-white"
+                  className="select-control"
                 >
                   <option value="fixed_hours">Fixed Hours (e.g. 10:00 AM – 11:00 PM)</option>
                   <option value="24x7">24x7 Round-the-Clock Operations</option>
@@ -500,8 +488,8 @@ const OrganizationSettings = () => {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Average Daily Order Volume (Estimated)
                 </label>
                 <input
@@ -517,7 +505,7 @@ const OrganizationSettings = () => {
                       },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
             </div>
@@ -528,36 +516,36 @@ const OrganizationSettings = () => {
         {/* TAB 2: PLATFORM INTEGRATIONS */}
         {/* ==================================================== */}
         {activeTab === "integrations" && (
-          <div className="space-y-8 animate-in fade-in duration-300">
+          <div className="space-y-8">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-bold text-[var(--color-text-main)] mb-1">
                 Third-Party Delivery Aggregators
               </h3>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">
                 Connect external food aggregators to consolidate kitchen tickets and centralized audit trails.
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {formData.integrations.deliveryPlatforms.map((platform) => (
                   <div
                     key={platform.name}
-                    className="flex flex-col md:flex-row md:items-center justify-between p-4 border rounded-xl border-slate-200 gap-4"
+                    className="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl app-card-subtle gap-4"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-orange-50 border border-orange-200 flex items-center justify-center font-black text-orange-600 uppercase text-xs">
+                      <div className="w-9 h-9 rounded-lg bg-[var(--color-surface)] border border-[var(--color-border-subtle)] shadow-sm flex items-center justify-center font-bold text-[var(--color-text-main)] uppercase text-xs">
                         {platform.name.substring(0, 3)}
                       </div>
                       <div>
-                        <h4 className="font-bold text-sm text-slate-800 capitalize">
+                        <h4 className="font-semibold text-sm text-[var(--color-text-main)] capitalize">
                           {platform.name} Partner Sync
                         </h4>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-[var(--color-text-muted)]">
                           {platform.isActive ? "Active and receiving orders" : "Inactive / Not connected"}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 flex-1 md:max-w-md justify-end">
+                    <div className="flex items-center gap-3 flex-1 md:max-w-md justify-end">
                       <input
                         type="text"
                         placeholder="Merchant ID / Store ID"
@@ -565,16 +553,16 @@ const OrganizationSettings = () => {
                         onChange={(e) =>
                           handleDeliveryPlatformChange(platform.name, "merchantId", e.target.value)
                         }
-                        className="flex-1 border border-slate-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-cyan-500"
+                        className="input-control text-xs flex-1"
                       />
-                      <label className="flex items-center gap-2 text-xs font-semibold cursor-pointer">
+                      <label className="flex items-center gap-2 text-xs font-semibold cursor-pointer text-[var(--color-text-main)]">
                         <input
                           type="checkbox"
                           checked={platform.isActive}
                           onChange={(e) =>
                             handleDeliveryPlatformChange(platform.name, "isActive", e.target.checked)
                           }
-                          className="w-4 h-4 text-cyan-600 rounded focus:ring-cyan-500"
+                          className="w-4 h-4 rounded accent-[var(--color-primary)]"
                         />
                         Active
                       </label>
@@ -584,12 +572,12 @@ const OrganizationSettings = () => {
               </div>
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border-[var(--color-border-subtle)]" />
 
             {/* POS and Accounting */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Point of Sale (POS) Engine
                 </label>
                 <input
@@ -602,12 +590,12 @@ const OrganizationSettings = () => {
                       integrations: { ...formData.integrations, posSystem: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Accounting / ERP Integration
                 </label>
                 <input
@@ -620,7 +608,7 @@ const OrganizationSettings = () => {
                       integrations: { ...formData.integrations, accountingSoftware: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
             </div>
@@ -631,19 +619,19 @@ const OrganizationSettings = () => {
         {/* TAB 3: COMPLIANCE & LICENSING */}
         {/* ==================================================== */}
         {activeTab === "compliance" && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-bold text-[var(--color-text-main)] mb-1">
                 Corporate Regulatory Certifications
               </h3>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">
                 Enterprise-wide regulatory numbers. Individual kitchen FSSAI certificates are managed under Branch Offices.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Shop & Establishment License Ref
                 </label>
                 <input
@@ -656,12 +644,12 @@ const OrganizationSettings = () => {
                       compliance: { ...formData.compliance, shopAndEstablishmentLicense: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Fire & Safety NOC Reference
                 </label>
                 <input
@@ -674,12 +662,12 @@ const OrganizationSettings = () => {
                       compliance: { ...formData.compliance, fireSafetyCertificate: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Liquor / Excise License (If Applicable)
                 </label>
                 <input
@@ -692,12 +680,12 @@ const OrganizationSettings = () => {
                       compliance: { ...formData.compliance, liquorLicense: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Halal Food Preparation Certification
                 </label>
                 <input
@@ -710,7 +698,7 @@ const OrganizationSettings = () => {
                       compliance: { ...formData.compliance, halaalCertification: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
             </div>
@@ -721,31 +709,31 @@ const OrganizationSettings = () => {
         {/* TAB 4: CORPORATE & TAX LEGAL */}
         {/* ==================================================== */}
         {activeTab === "corporate" && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-bold text-[var(--color-text-main)] mb-1">
                 Legal Entity & Invoicing Defaults
               </h3>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">
                 Corporate identification for automated B2B invoicing and tenant billing.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Registered Legal Name
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Company Registration Number (CIN)
                 </label>
                 <input
@@ -754,42 +742,42 @@ const OrganizationSettings = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, companyRegistrationNumber: e.target.value })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Tax Identification / GSTIN
                 </label>
                 <input
                   type="text"
                   value={formData.taxId}
                   onChange={(e) => setFormData({ ...formData, taxId: e.target.value })}
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Dedicated Invoicing / Billing Email
                 </label>
                 <input
                   type="email"
                   value={formData.billingEmail}
                   onChange={(e) => setFormData({ ...formData, billingEmail: e.target.value })}
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Default Accounting Currency
                 </label>
                 <select
                   value={formData.currency}
                   onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500 bg-white"
+                  className="select-control"
                 >
                   <option value="INR">INR (₹) - Indian Rupee</option>
                   <option value="USD">USD ($) - US Dollar</option>
@@ -798,14 +786,14 @@ const OrganizationSettings = () => {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Master Organization Timezone
                 </label>
                 <select
                   value={formData.timezone}
                   onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500 bg-white"
+                  className="select-control"
                 >
                   <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
                   <option value="UTC">UTC (Universal)</option>
@@ -821,19 +809,19 @@ const OrganizationSettings = () => {
         {/* TAB 5: CONTACT & BRAND ASSETS */}
         {/* ==================================================== */}
         {activeTab === "support" && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-bold text-[var(--color-text-main)] mb-1">
                 Brand Identity & Support Contacts
               </h3>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">
                 Used on customer receipts, partner integrations, and system-generated dispatch sheets.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Primary Enterprise Phone
                 </label>
                 <input
@@ -846,12 +834,12 @@ const OrganizationSettings = () => {
                       support: { ...formData.support, primaryPhone: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Official Website
                 </label>
                 <input
@@ -864,12 +852,12 @@ const OrganizationSettings = () => {
                       support: { ...formData.support, website: e.target.value },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Instagram Handle
                 </label>
                 <input
@@ -885,12 +873,12 @@ const OrganizationSettings = () => {
                       },
                     })
                   }
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">
+              <div className="form-group">
+                <label className="form-label">
                   Brand Logo URL
                 </label>
                 <input
@@ -898,7 +886,7 @@ const OrganizationSettings = () => {
                   placeholder="https://cdn.yourbrand.com/logo.png"
                   value={formData.logoUrl}
                   onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
-                  className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-cyan-500"
+                  className="input-control"
                 />
               </div>
             </div>
@@ -909,29 +897,29 @@ const OrganizationSettings = () => {
         {/* TAB 6: GOVERNANCE & OWNERSHIP TRANSFER */}
         {/* ==================================================== */}
         {activeTab === "governance" && (
-          <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-bold text-[var(--color-text-main)] mb-1">
                 Enterprise Administration & Ownership Delegation
               </h3>
-              <p className="text-sm text-slate-500 mb-4">
+              <p className="text-xs text-[var(--color-text-muted)] mb-4">
                 The Primary Enterprise Administrator holds master signing and governance authority over this tenant.
               </p>
             </div>
 
             {/* Current Admin Card */}
-            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-200">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-lg">
+            <div className="p-6 app-card-subtle">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-base shadow-sm">
                     {profile?.admin?.fullname?.charAt(0) || user?.fullname?.charAt(0) || "A"}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900">
-                      {profile?.admin?.fullname || user?.fullname} (Current Primary Admin)
+                    <h4 className="font-bold text-sm text-[var(--color-text-main)]">
+                      {profile?.admin?.fullname || user?.fullname} (Primary Admin)
                     </h4>
-                    <p className="text-sm text-slate-500">
-                      {profile?.admin?.email || user?.email} • Role: Enterprise Administrator
+                    <p className="text-xs text-[var(--color-text-muted)]">
+                      {profile?.admin?.email || user?.email} • Enterprise Administrator
                     </p>
                   </div>
                 </div>
@@ -939,7 +927,7 @@ const OrganizationSettings = () => {
                 <button
                   type="button"
                   onClick={() => setShowTransferModal(true)}
-                  className="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-bold px-4 py-2 rounded-xl transition-all"
+                  className="btn-secondary hover:text-[var(--color-critical)] text-xs font-semibold self-start sm:self-auto"
                 >
                   Transfer Ownership
                 </button>
@@ -948,17 +936,17 @@ const OrganizationSettings = () => {
 
             {/* Transfer Modal */}
             {showTransferModal && (
-              <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-                <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-slate-200 animate-in zoom-in-95">
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">
+              <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+                <div className="app-card max-w-md w-full shadow-2xl animate-in zoom-in-95">
+                  <h3 className="text-base font-bold text-[var(--color-text-main)] mb-2">
                     Transfer Enterprise Ownership
                   </h3>
-                  <p className="text-xs text-slate-500 mb-4">
+                  <p className="text-xs text-[var(--color-text-muted)] mb-4">
                     Transferring ownership will promote the target user to Enterprise Admin and reassign your role to Manager. This action can only be undone by the new owner.
                   </p>
 
-                  <div className="mb-4">
-                    <label className="block text-xs font-bold text-slate-600 uppercase mb-1">
+                  <div className="form-group mb-4">
+                    <label className="form-label">
                       Target User MongoDB ID
                     </label>
                     <input
@@ -966,7 +954,7 @@ const OrganizationSettings = () => {
                       placeholder="e.g. 64f1b2c3d4e5f6..."
                       value={transferTargetId}
                       onChange={(e) => setTransferTargetId(e.target.value)}
-                      className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-cyan-500"
+                      className="input-control text-xs"
                     />
                   </div>
 
@@ -974,7 +962,7 @@ const OrganizationSettings = () => {
                     <button
                       type="button"
                       onClick={() => setShowTransferModal(false)}
-                      className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl"
+                      className="btn-secondary text-xs"
                     >
                       Cancel
                     </button>
@@ -982,7 +970,7 @@ const OrganizationSettings = () => {
                       type="button"
                       onClick={handleTransferOwnership}
                       disabled={saving}
-                      className="px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl"
+                      className="btn-critical text-xs"
                     >
                       Confirm Transfer
                     </button>
