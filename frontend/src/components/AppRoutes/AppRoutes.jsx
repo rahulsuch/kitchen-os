@@ -21,16 +21,11 @@ import CertificatesDashboard from "../Certificates/CertificatesDashboard";
 import StaffDashboard from "../StaffDashboard/StaffDashboard";
 import Incidents from "../Incidents/Incidents";
 import ManifestDashboard from "../ManifestDashboard/ManifestDashboard";
+import OrganizationSettings from "../OrganizationSettings/OrganizationSettings";
+import UserProfile from "../UserProfile/UserProfile";
 
 function AppRoutes() {
-  const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
-
-  if (loading)
-    return (
-      <div className="min-h-screen bg-[#0a0f18] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
-      </div>
-    );
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -49,6 +44,26 @@ function AppRoutes() {
           element={
             <AuthRoutes>
               <Home />
+            </AuthRoutes>
+          }
+        />
+
+        {/* USER PROFILE: Personal account management */}
+        <Route
+          path="/profile"
+          element={
+            <AuthRoutes>
+              <UserProfile />
+            </AuthRoutes>
+          }
+        />
+
+        {/* ORGANIZATION SETTINGS: Enterprise tenant management */}
+        <Route
+          path="/organization-settings"
+          element={
+            <AuthRoutes>
+              <OrganizationSettings />
             </AuthRoutes>
           }
         />

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, ClipboardCheck, ShieldCheck, 
-  FileText, Users, AlertCircle, LogOut, ChevronRight, ShieldUser 
+  FileText, Users, AlertCircle, LogOut, ChevronRight, ShieldUser,
+  Building2, User 
 } from 'lucide-react';
 import { logoutAction } from '../../store/actions/authActions';
 import { PERMISSIONS } from '../../../../shared/constants/Permissions';
@@ -24,6 +25,8 @@ const Sidebar = ({ isExpanded }) => {
     { icon: FileText, label: 'Certificates', path: '/certificates', permission: PERMISSIONS.VIEW_CERTIFICATES },
     { icon: Users, label: 'Staff & FoSTaC', path: '/staff', permission: PERMISSIONS.MANAGE_STAFF },
     { icon: AlertCircle, label: 'Incidents', path: '/incidents', permission: PERMISSIONS.REPORT_INCIDENTS },
+    { icon: Building2, label: 'Org Settings', path: '/organization-settings', permission: PERMISSIONS.VIEW_DASHBOARD },
+    { icon: User, label: 'My Profile', path: '/profile', permission: PERMISSIONS.VIEW_DASHBOARD },
     { icon: ShieldUser, label: 'Admin Panel', path: '/system-command', permission: PERMISSIONS.SYSTEM_MAINTENANCE },
     { icon: ShieldUser, label: 'Developer Progress', path: '/manifest-dashboard', permission: PERMISSIONS.SYSTEM_MAINTENANCE },
   ];

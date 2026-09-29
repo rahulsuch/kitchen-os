@@ -43,7 +43,7 @@ const Login = () => {
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4 rounded-md shadow-sm">
+          <div className="space-y-4 rounded-md shadow-md p-2 bg-gray-200">
             {/* Email Field */}
             <div>
               <label
@@ -126,13 +126,13 @@ const Login = () => {
           {/* Footer Toggle */}
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Not a registered user?{" "}
+              Not a registered Business?{" "}
               <button
                 type="button"
                 onClick={() => navigate("/signup")}
                 className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer focus:outline-none focus:underline"
               >
-                Sign up here
+                Register here
               </button>
             </p>
           </div>

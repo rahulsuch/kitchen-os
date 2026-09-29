@@ -17,22 +17,32 @@ import {
 } from "../types/ActionTypes";
 
 export const signupaction = (userData) => async (dispatch) => {
-  console.log("signup action called");
+  console.log("📤 [FRONTEND] Dispatching signupaction with payload:", userData);
   try {
     dispatch({ type: SIGNUP_REQUEST });
-    const response = await apiClient.post("/api/v1/auth/signup", {
+    // Point to the correct business onboarding endpoint
+    const response = await apiClient.post("/api/v1/auth/register-business", {
+      fullname: userData.fullname,
       username: userData.username,
-      fullname: userData.fullName,
       email: userData.email,
       password: userData.password,
-      organization: userData.organization,
-      branch: userData.branch
+      organizationName: userData.organizationName,
+      branchName: userData.branchName,
+      fssaiNumber: userData.fssaiNumber,
+      companyRegistrationNumber: userData.companyRegistrationNumber,
+      taxId: userData.taxId,
+      billingEmail: userData.billingEmail,
+      currency: userData.currency,
+      timezone: userData.timezone
     });
     const out = response.data;
+    console.log("📥 [FRONTEND] Signup successful:", out);
     dispatch({ type: SIGNUP_SUCCESS, payload: out });
     return out;
   } catch (error) {
-    dispatch({ type: SIGNUP_FAILURE, payload: error.message });
+    const errorMsg = typeof error === "string" ? error : (error.response?.data?.message || error.message || "Registration failed");
+    console.error("❌ [FRONTEND] Signup failed:", errorMsg);
+    dispatch({ type: SIGNUP_FAILURE, payload: errorMsg });
     throw error;
   }
 };
